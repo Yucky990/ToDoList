@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #253445, #4ca1af);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            overflow-y: auto;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        input, select {
+            width: 80%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #0056b3;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #004494;
+        }
+        .task-container {
+            text-align: left;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .task {
+            display: flex;
+            align-items: center;
+            background: #e3f2fd;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .task input {
+            margin-right: 10px;
+        }
+        .progress-bar {
+            width: 100%;
+            background: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            height: 10px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: #4CAF50;
+            width: 0;
+            transition: width 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Monthly To-Do List</h2>
+        <input type="text" id="goalInput" placeholder="Apa yang ingin kamu pelajari?">
+        <select id="hoursPerDay">
+            <option value="1">1 Jam</option>
+            <option value="2">2 Jam</option>
+            <option value="3">3 Jam</option>
+            <option value="4">4 Jam</option>
+        </select>
+        <button onclick="createToDoList()">Buat To-Do List</button>
+        <div id="taskList" class="task-container"></div>
+        <div class="progress-bar"><div class="progress" id="progress"></div></div>
+    </div>
+    <script>
+        function createToDoList() {
+            let goal = document.getElementById("goalInput").value.trim();
+            let hours = document.getElementById("hoursPerDay").value;
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = `<h3>${goal} - ${hours} Jam/Hari</h3>`;
+            for (let i = 1; i <= 30; i++) {
+                let task = document.createElement("div");
+                task.classList.add("task");
+                task.innerHTML = `<input type='checkbox' id='day${i}' onchange='updateProgress()'> Hari ${i}`;
+                taskList.appendChild(task);
+            }
+        }
+        function updateProgress() {
+            let tasks = document.querySelectorAll(".task input");
+            let completed = Array.from(tasks).filter(task => task.checked).length;
+            let progress = document.getElementById("progress");
+            progress.style.width = `${(completed / tasks.length) * 100}%`;
+        }
+    </script>
+</body>
+</html>
